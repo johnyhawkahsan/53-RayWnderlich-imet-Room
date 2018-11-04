@@ -71,7 +71,7 @@ class PeopleRepository(application: Application) {
   /**
    * Finds people with specific id
    */
-  fun findPeople(id: Int): People {
+  fun findPeople(id: Int): LiveData<People> {
       return peopleDao.find(id)
   }
 

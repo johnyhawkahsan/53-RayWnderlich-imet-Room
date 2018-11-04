@@ -24,7 +24,7 @@ interface PeopleDao {
 
     // 4: Select by id
     @Query("SELECT * FROM People WHERE id = :id")
-    fun find(id: Int): People
+    fun find(id: Int): LiveData<People>
 
     // 5: Find user by name
     @Query("SELECT * FROM People WHERE name LIKE '%' || :name || '%'")

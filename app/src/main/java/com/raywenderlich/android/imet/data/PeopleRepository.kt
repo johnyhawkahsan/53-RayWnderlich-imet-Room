@@ -88,4 +88,9 @@ class PeopleRepository(application: Application) {
     return peoples
   }
 
+  // Extend search functionality by searching data according to the name provided
+  fun findPeople(name: String) : LiveData<List<People>>{
+    return peopleDao.findBy(name)
+  }
+
 }

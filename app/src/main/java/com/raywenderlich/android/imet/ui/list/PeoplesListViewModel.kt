@@ -28,4 +28,12 @@ class PeoplesListViewModel(application: Application) : AndroidViewModel(applicat
         }
     }
 
+    // 3
+    fun searchPeople(name: String){
+        //Performs the search using peopleRepository.findPeople(name) and sets the resulting LiveData as a source of peopleList.
+        peopleList.addSource(peopleRepository.findPeople(name)) { peoples ->
+            peopleList.postValue(peoples) //Posts the value of the resulting LiveData to the observer of peopleList. As a result, your people list will show with the name of searched people (if found) instead of showing all People.
+        }
+    }
+
 }

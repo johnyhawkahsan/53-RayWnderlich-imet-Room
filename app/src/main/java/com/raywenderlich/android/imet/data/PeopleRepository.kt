@@ -34,6 +34,7 @@
 package com.raywenderlich.android.imet.data
 
 import android.app.Application
+import android.arch.lifecycle.LiveData
 import com.raywenderlich.android.imet.data.db.PeopleDao
 import com.raywenderlich.android.imet.data.db.PeopleDatabase
 import com.raywenderlich.android.imet.data.model.People
@@ -51,7 +52,7 @@ class PeopleRepository(application: Application) {
   /**
    * Returns the list of all people in reverse order (latest on top)
    */
-  fun getAllPeople(): List<People> {
+  fun getAllPeople(): LiveData<List<People>> {
 /*
     val allPeople = PeopleInfoProvider.peopleList
     return allPeople.reversed()

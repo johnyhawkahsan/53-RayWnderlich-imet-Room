@@ -34,36 +34,44 @@
 package com.raywenderlich.android.imet.data
 
 import android.app.Application
+import com.raywenderlich.android.imet.data.db.PeopleDao
+import com.raywenderlich.android.imet.data.db.PeopleDatabase
 import com.raywenderlich.android.imet.data.model.People
 import com.raywenderlich.android.imet.data.net.PeopleInfoProvider
 
 class PeopleRepository(application: Application) {
 
+  private val peopleDao : PeopleDao
+
+    init {
+        val peopleDatabase = PeopleDatabase.getInstance(application) // create an instance of peopleDatabase
+        peopleDao = peopleDatabase.peopleDao() // we receive people dao from peopleDatabase
+    }
+
   /**
    * Returns the list of all people in reverse order (latest on top)
    */
   fun getAllPeople(): List<People> {
+/*
     val allPeople = PeopleInfoProvider.peopleList
     return allPeople.reversed()
+*/
+      return peopleDao.getAll()
   }
 
   /**
    * Adds a new people info on peopleList
    */
   fun insertPeople(people: People) {
-    PeopleInfoProvider.peopleList.add(people)
+    //PeopleInfoProvider.peopleList.add(people) // we used to add name into a list, now we need to add it to our database
+      peopleDao.insert(people)
   }
 
   /**
    * Finds people with specific id
    */
-  fun findPeople(id: Int): People? {
-    for (people in PeopleInfoProvider.peopleList) {
-      if (people.id == id) {
-        return people
-      }
-    }
-    return null
+  fun findPeople(id: Int): People {
+      return peopleDao.find(id)
   }
 
   /**

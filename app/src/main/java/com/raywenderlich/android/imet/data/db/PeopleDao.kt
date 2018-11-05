@@ -1,10 +1,7 @@
 package com.raywenderlich.android.imet.data.db
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.raywenderlich.android.imet.data.model.People
 
 @Dao
@@ -29,5 +26,12 @@ interface PeopleDao {
     // 5: Find user by name
     @Query("SELECT * FROM People WHERE name LIKE '%' || :name || '%'")
     fun findBy(name: String): LiveData<List<People>>
+
+    // 6: This is my effort to be able to delete a contact
+    @Query("DELETE FROM People WHERE id = :id")
+    fun delete(id: Int)
+
+    @Delete
+    fun deletePeople(people: People)
 
 }

@@ -71,6 +71,7 @@ class AddPeopleFragment : Fragment() {
         when (item?.itemId) {
             R.id.menu_add -> {
                 savePeopleInfo()
+                activity?.finish() // This line ends the current activity so we can go back to our list
                 return true
             }
         }

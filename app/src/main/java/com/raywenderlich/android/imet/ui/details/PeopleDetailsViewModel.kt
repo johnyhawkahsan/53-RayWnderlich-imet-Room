@@ -21,4 +21,12 @@ class PeopleDetailsViewModel(application: Application) : AndroidViewModel(applic
         return peopleDetails
     }
 
+    // Delete people based on id - Note: We do not need any return type like LiveData
+    fun deletePeople(id: Int){
+        peopleRepository.deletePeople(id)
+    }
+
+    fun deletePeople(people: People){
+        peopleRepository.deletePeopleObject(people)
+    }
 }

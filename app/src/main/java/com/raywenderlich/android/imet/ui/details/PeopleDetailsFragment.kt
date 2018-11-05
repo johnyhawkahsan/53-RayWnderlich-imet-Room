@@ -35,11 +35,11 @@ package com.raywenderlich.android.imet.ui.details
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
 import com.raywenderlich.android.imet.data.model.People
@@ -55,6 +55,7 @@ class PeopleDetailsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(this).get(PeopleDetailsViewModel::class.java)
     }
 
@@ -87,5 +88,60 @@ class PeopleDetailsFragment : Fragment() {
     textViewFacebook.text = people?.facebook
     textViewTwitter.text = people?.twitter
   }
+
+
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.menu_delete_people, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.menu_delete -> {
+                deletePeopleInfo()
+                activity?.finish() // This line ends the current activity so we can go back to our list
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * Delete people info from database and return to PeopleListActivity
+     */
+    private fun deletePeopleInfo() {
+        // Find people with provided id
+        val peopleId = activity?.intent?.getIntExtra(getString(R.string.people_id), 0)
+        viewModel.deletePeople(peopleId!!)
+
+
+    }
+
+/*
+    //Alert Dialog helper code
+    AlertDialog.Builder(this@MainActivity )
+    .setTitle("Select Options")
+    .setItems(arrayOf<String>("Delete", "Update"),
+    object : DialogInterface.OnClickListener {
+        override fun onClick(dialogInterface: DialogInterface, i: Int) {
+            when (i) {
+                0 -> {
+                    noteDatabase.getNoteDao().deleteNote(notes.get(pos))
+                    Log.i(TAG, "onClick: delete item at position = $pos")
+                    notes.removeAt(pos)
+                    listVisibility()
+                }
+                1 -> {
+                    this@MainActivity.pos = pos
+                    Log.i(TAG, "onClick: update item at position = $pos")
+                    val intent = Intent(this@MainActivity, AddNoteActivity::class.java).putExtra("note", notes.get(pos))
+                    startActivityForResult(intent, NEW_NOTE_ACTIVITY_REQUEST_CODE)
+                }
+            }
+        }
+    }).show()
+*/
+
 
 }

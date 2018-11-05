@@ -93,4 +93,13 @@ class PeopleRepository(application: Application) {
     return peopleDao.findBy(name)
   }
 
+  // Delete people info when delete button is clicked on menu
+  fun deletePeople(id: Int){
+    return peopleDao.delete(id)
+  }
+
+    fun deletePeopleObject(people: People){
+        return peopleDao.deletePeople(people)
+    }
+
 }

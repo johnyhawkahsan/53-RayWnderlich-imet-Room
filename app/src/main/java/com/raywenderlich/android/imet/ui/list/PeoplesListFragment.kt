@@ -39,14 +39,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.*
-import com.raywenderlich.android.imet.IMetApp
 import com.raywenderlich.android.imet.R
-import com.raywenderlich.android.imet.data.db.PeopleDatabase
 import com.raywenderlich.android.imet.data.model.People
 import com.raywenderlich.android.imet.ui.add.AddPeopleActivity
 import com.raywenderlich.android.imet.ui.details.PeopleDetailsActivity
-import kotlinx.android.synthetic.main.fragment_peoples_list.*
+import kotlinx.android.synthetic.main.fragment_peoples_list.* // Add all widgets in fragment_peoples_list
 import java.util.logging.Logger
 
 /**
@@ -59,15 +58,15 @@ class PeoplesListFragment : Fragment(),
 
     private lateinit var searchView: SearchView
     private lateinit var viewModel: PeoplesListViewModel
-    val LOG = Logger.getLogger(PeoplesListFragment::class.java.name);
+    val LOG = Logger.getLogger(PeoplesListFragment::class.java.name); // 1st method to print log
+    val TAG : String = "" //2nd method to print log
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
-        viewModel = ViewModelProviders.of(this).get(PeoplesListViewModel::class.java)
-
+        viewModel = ViewModelProviders.of(this).get(PeoplesListViewModel::class.java) // Initialize ViewModel in onCreate
     }
 
 
@@ -96,6 +95,9 @@ class PeoplesListFragment : Fragment(),
             val addPeopleIntent = Intent(context, AddPeopleActivity::class.java)
             startActivity(addPeopleIntent)
         }
+
+        // This above onClick listener is using a lambda expression which works like this
+        Log.d(TAG, { x: Int, y: Int -> x + y } .toString()); // Int -> x + y is
 
         // Start observing people list
         viewModel.getPeopleList().observe(this, Observer<List<People>> { peoples ->
@@ -142,7 +144,8 @@ class PeoplesListFragment : Fragment(),
         val detailsIntent = Intent(context, PeopleDetailsActivity::class.java)
         detailsIntent.putExtra(getString(R.string.people_id), people.id)
         startActivity(detailsIntent)
-        LOG.warning("Sending intent data with people.id = " + people.id)
+        LOG.warning("Sending intent data with people.id = " + people.id) // 1st method to print log
+        Log.d(TAG, "Sending intent data with people.id =  $people.id ") //2nd method to print log
     }
 
 }

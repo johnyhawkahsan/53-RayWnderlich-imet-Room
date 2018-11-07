@@ -37,6 +37,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.NavUtils
+import android.util.Log
 import android.view.*
 import androidx.navigation.Navigation
 import com.raywenderlich.android.imet.IMetApp
@@ -50,11 +51,12 @@ import kotlinx.android.synthetic.main.fragment_add_people.*
 class AddPeopleFragment : Fragment() {
 
     private lateinit var viewModel: AddPeopleViewModel
+    private val TAG : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(this).get(AddPeopleViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(AddPeopleViewModel::class.java) // Initialize ViewModel in onCreate
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -92,6 +94,7 @@ class AddPeopleFragment : Fragment() {
         )
         //(activity?.application as IMetApp).getPeopleRepository().insertPeople(people) // This is the old method
         viewModel.addPeople(people) // Now we use viewModel to add people to database
+        Log.d(TAG, "Adding people = " + people.name)
 
         //Navigation.findNavController(view!!).navigateUp()
 
